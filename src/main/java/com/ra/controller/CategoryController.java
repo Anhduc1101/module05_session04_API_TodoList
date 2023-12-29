@@ -49,12 +49,21 @@ public class CategoryController {
     }
 
 //    xoa
+//    @DeleteMapping("/categories/{id}")
+//    public ResponseEntity<?> delete_category(@PathVariable("id") Long id){
+//        if (categoryService.findById(id)!=null){
+//            categoryService.delete(id);
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//        return new ResponseEntity<>("Not Found",HttpStatus.NOT_FOUND);
+//    }
     @DeleteMapping("/categories/{id}")
-    public ResponseEntity<?> delete_category(@PathVariable("id") Long id){
-        if (categoryService.findById(id)!=null){
+    public ResponseEntity<Category> delete_category(@PathVariable("id") Long id,@RequestBody Category category){
+        Category cat=categoryService.findById(id);
+        if (cat!=null){
             categoryService.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>("Not Found",HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
 }

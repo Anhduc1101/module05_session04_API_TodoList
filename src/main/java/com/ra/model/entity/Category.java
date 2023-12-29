@@ -2,6 +2,8 @@ package com.ra.model.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 public class Category {
     @Id
@@ -11,6 +13,9 @@ public class Category {
     private String categoryName;
     @Column(columnDefinition = "boolean default true")
     private Boolean status = true;
+
+    @OneToMany(mappedBy = "category",cascade = CascadeType.REMOVE)
+    private Set<Product> products;
 
     public Category() {
     }
