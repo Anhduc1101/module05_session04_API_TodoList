@@ -1,5 +1,7 @@
 package com.ra.model.dto;
 
+import com.ra.model.entity.Product;
+
 public class ProductDTO {
     private Long id;
     private String productName;
@@ -16,6 +18,13 @@ public class ProductDTO {
         this.productName = productName;
         this.status = status;
         this.categoryId = categoryId;
+    }
+
+    public ProductDTO(Product product){
+        this.id = product.getId();
+        this.productName = product.getProductName();
+        this.status = product.getStatus();
+        this.categoryId = product.getCategory().getId();
     }
 
     public Long getId() {

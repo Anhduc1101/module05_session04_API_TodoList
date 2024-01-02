@@ -6,6 +6,8 @@ import com.ra.model.entity.Product;
 import com.ra.repository.ProductRepository;
 import com.ra.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +20,13 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     @Autowired
     private CategoryService categoryService;
+
+    @Override
+    public Page<ProductDTO> getAll(Pageable pageable) {
+        Page<Product> productDTOS=productRepository.findAll(pageable);
+        return productDTOS.map(product -> new ProductDTO(product.getId(),product.getProductName(),product.getStatus(),product.getCategory().getId()));
+
+    }
 
     @Override
     public List<ProductDTO> findAll() {
@@ -76,4 +85,11 @@ public class ProductServiceImpl implements ProductService {
     public Product findProductById(Long id) {
         return productRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public Page<ProductDTO> searchByName(Pageable pageable, String name) {
+        Page<Product> productPage=productRepository.findAllByProductNameContainingIgnoreCase(pageable, name);
+        return productPage.map(product -> new ProductDTO(product));
+    }
+
 }
