@@ -10,4 +10,5 @@ public interface ProductService {
     void delete(Long id);
     ProductDTO saveOrUpdate(ProductDTO productDTO);
     ProductDTO findById(Long id);
+    Product findProductById(Long id);
 }

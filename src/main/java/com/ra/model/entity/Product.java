@@ -2,6 +2,8 @@ package com.ra.model.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 public class Product {
     @Id
@@ -14,14 +16,18 @@ public class Product {
     @JoinColumn(name = "catId",referencedColumnName = "id")
     private Category category;
 
+    @OneToMany(mappedBy = "product")
+    private Set<OrderDetails> orderDetail;
+
     public Product() {
     }
 
-    public Product(Long id, String productName, Boolean status, Category category) {
+    public Product(Long id, String productName, Boolean status, Category category, Set<OrderDetails> orderDetail) {
         this.id = id;
         this.productName = productName;
         this.status = status;
         this.category = category;
+        this.orderDetail = orderDetail;
     }
 
     public Long getId() {
@@ -54,5 +60,13 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Set<OrderDetails> getOrderDetail() {
+        return orderDetail;
+    }
+
+    public void setOrderDetail(Set<OrderDetails> orderDetail) {
+        this.orderDetail = orderDetail;
     }
 }

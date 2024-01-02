@@ -1,5 +1,6 @@
 package com.ra.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -14,7 +15,8 @@ public class Category {
     @Column(columnDefinition = "boolean default true")
     private Boolean status = true;
 
-    @OneToMany(mappedBy = "category",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "category",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+//    @JsonIgnore //mã hóa serializable
     private Set<Product> products;
 
     public Category() {

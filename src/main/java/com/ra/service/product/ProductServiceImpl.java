@@ -3,7 +3,7 @@ package com.ra.service.product;
 import com.ra.model.dto.ProductDTO;
 import com.ra.model.entity.Category;
 import com.ra.model.entity.Product;
-import com.ra.repositor.ProductRepository;
+import com.ra.repository.ProductRepository;
 import com.ra.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,5 +70,10 @@ public class ProductServiceImpl implements ProductService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Product findProductById(Long id) {
+        return productRepository.findById(id).orElse(null);
     }
 }

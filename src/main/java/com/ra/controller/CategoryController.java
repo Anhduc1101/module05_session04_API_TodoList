@@ -58,7 +58,7 @@ public class CategoryController {
 //        return new ResponseEntity<>("Not Found",HttpStatus.NOT_FOUND);
 //    }
     @DeleteMapping("/categories/{id}")
-    public ResponseEntity<Category> delete_category(@PathVariable("id") Long id,@RequestBody Category category){
+    public ResponseEntity<Category> delete_category(@PathVariable("id") Long id){
         Category cat=categoryService.findById(id);
         if (cat!=null){
             categoryService.delete(id);

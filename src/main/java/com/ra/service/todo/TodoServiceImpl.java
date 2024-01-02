@@ -1,7 +1,7 @@
 package com.ra.service.todo;
 
 import com.ra.model.entity.Todo;
-import com.ra.repositor.TodoRepository;
+import com.ra.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
