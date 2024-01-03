@@ -3,6 +3,10 @@ package com.ra.controller;
 import com.ra.model.entity.Category;
 import com.ra.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,14 +53,7 @@ public class CategoryController {
     }
 
 //    xoa
-//    @DeleteMapping("/categories/{id}")
-//    public ResponseEntity<?> delete_category(@PathVariable("id") Long id){
-//        if (categoryService.findById(id)!=null){
-//            categoryService.delete(id);
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-//        return new ResponseEntity<>("Not Found",HttpStatus.NOT_FOUND);
-//    }
+
     @DeleteMapping("/categories/{id}")
     public ResponseEntity<Category> delete_category(@PathVariable("id") Long id){
         Category cat=categoryService.findById(id);
@@ -65,5 +62,21 @@ public class CategoryController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/categories/sort+search+pagination")
+    public ResponseEntity<Page<Category>> getCategories(@RequestParam(name = "page",defaultValue = "0") int page,
+                                                        @RequestParam(name = "size",defaultValue = "5") int size,
+                                                        @RequestParam(name = "sort",defaultValue = "id") String sort,
+                                                        @RequestParam(name = "order",defaultValue = "asc") String order,
+                                                        @RequestParam(name = "search") String search){
+        Pageable pageable;
+        if (order.equals("asc")){
+            pageable= PageRequest.of(page,size, Sort.by(sort).ascending());
+        }else {
+            pageable=PageRequest.of(page,size,Sort.by(sort).descending());
+        }
+        Page<Category> categoryPage=categoryService.searchByName(pageable,search);
+        return new ResponseEntity<>(categoryPage,HttpStatus.OK);
     }
 }

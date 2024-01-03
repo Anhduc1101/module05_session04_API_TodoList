@@ -1,5 +1,6 @@
 package com.ra.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -17,6 +18,7 @@ public class Product {
     private Category category;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private Set<OrderDetails> orderDetail;
 
     public Product() {

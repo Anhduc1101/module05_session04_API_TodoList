@@ -6,6 +6,8 @@ import com.ra.repository.OrderDetailRepository;
 import com.ra.service.orders.OrdersService;
 import com.ra.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -74,5 +76,17 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         detailsDTO.setOrdersId(orderDetail.getOrders().getId());
         detailsDTO.setProductId(orderDetail.getProduct().getId());
         return detailsDTO;
+    }
+
+    @Override
+    public Page<OrderDetailsDTO> getAll(Pageable pageable) {
+        Page<OrderDetails> orderDetailsPage=orderDetailRepository.findAll(pageable);
+        return orderDetailsPage.map(orderDetails -> new OrderDetailsDTO(orderDetails.getId(), orderDetails.getPrice(), orderDetails.getQuantity(), orderDetails.getProduct().getId(),orderDetails.getOrders().getId()));
+    }
+
+    @Override
+    public Page<OrderDetailsDTO> searchByOrderDetailsId(Pageable pageable, Integer id) {
+        Page<OrderDetails> orderDetailsPage=orderDetailRepository.searchOrderDetailsById(pageable, id);
+        return orderDetailsPage.map(orderDetails -> new OrderDetailsDTO(orderDetails.getId(), orderDetails.getPrice(), orderDetails.getQuantity(), orderDetails.getProduct().getId(),orderDetails.getOrders().getId()));
     }
 }
